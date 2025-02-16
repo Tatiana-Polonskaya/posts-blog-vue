@@ -9,14 +9,14 @@
     <my-dialog v-model:show="dialogVisible">
       <PostForm @create="createPost"
     /></my-dialog>
-    <my-input v-model="searchQuery" />
+    <my-input v-model="searchQuery" v-focus placeholder="Поиск..." />
     <PostList
       :posts="sortedAndSearchPosts"
       @remove="removePost"
       v-if="!isLoading"
     />
     <div v-else>Loading...</div>
-    <div class="observer" ref="observer"></div>
+    <div v-intersection="loadMorePost" class="observer"></div>
     <!-- <div class="page__wrapper">
       <div
         v-for="pageNumber in totalPages"
@@ -121,18 +121,18 @@ export default {
   mounted() {
     this.fetchPosts();
 
-    const options = {
-      rootMargin: "0px",
-      threshold: 1.0,
-    };
-    const callback = (entr) => {
-      if (entr[0].isIntersecting && this.page < this.totalPages) {
-        this.loadMorePost();
-      }
-    };
+    // const options = {
+    //   rootMargin: "0px",
+    //   threshold: 1.0,
+    // };
+    // const callback = (entr) => {
+    //   if (entr[0].isIntersecting && this.page < this.totalPages) {
+    //     this.loadMorePost();
+    //   }
+    // };
 
-    const observer = new IntersectionObserver(callback, options);
-    observer.observe(this.$refs.observer);
+    // const observer = new IntersectionObserver(callback, options);
+    // observer.observe(this.$refs.observer);
   },
   computed: {
     sortedPost() {
@@ -159,7 +159,6 @@ export default {
 </script>
 
 <style>
-
 .app__btns {
   display: flex;
   justify-content: space-between;
